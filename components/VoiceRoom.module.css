@@ -1,0 +1,176 @@
+.gate,
+.room,
+.stage {
+  min-height: 100dvh;
+  background: radial-gradient(ellipse 120% 80% at 50% 30%, var(--bg) 0%, var(--bg-deep) 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+.back {
+  position: absolute;
+  top: 28px;
+  left: 28px;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+
+.back:hover {
+  color: var(--ink);
+}
+
+.gateInner,
+.stageInner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 14px;
+  font-weight: 600;
+}
+
+.gateTitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.2rem, 6vw, 3.2rem);
+  margin: 0 0 18px;
+}
+
+.gateBody {
+  color: var(--ink-soft);
+  line-height: 1.6;
+  font-size: 0.95rem;
+  margin: 0 0 32px;
+}
+
+.startButton {
+  border: none;
+  background: var(--ink);
+  color: var(--surface);
+  padding: 15px 34px;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 10px 22px -10px var(--shadow);
+  transition: transform 160ms ease;
+}
+
+.startButton:hover {
+  transform: translateY(-2px);
+}
+
+.startButton:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.error {
+  color: var(--accent);
+  font-size: 0.85rem;
+  margin-top: 16px;
+}
+
+.gateHint {
+  margin-top: 22px;
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+}
+
+.stateLabel {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.4rem;
+  color: var(--ink);
+  margin: 0 0 30px;
+}
+
+.visualizerWrap {
+  width: 220px;
+  height: 90px;
+  margin-bottom: 36px;
+}
+
+.visualizer {
+  width: 100%;
+  height: 100%;
+  --lk-va-bar-width: 6px;
+  --lk-va-bar-gap: 6px;
+}
+
+.captions {
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.captionPlaceholder {
+  color: var(--ink-faint);
+  font-size: 0.88rem;
+}
+
+.captionLine {
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--ink);
+  margin: 0;
+}
+
+.captionSpeaker {
+  font-weight: 600;
+  color: var(--ink-soft);
+  margin-right: 8px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 28px 24px 40px;
+}
+
+.micToggle {
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.micToggle[data-enabled="false"] {
+  background: var(--accent);
+  color: var(--surface);
+  border-color: var(--accent);
+}
+
+.leaveButton {
+  border: none;
+  background: var(--accent);
+  color: var(--surface);
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+}
