@@ -1,0 +1,53 @@
+.ribbon {
+  position: fixed;
+  top: 0;
+  right: max(18px, env(safe-area-inset-right));
+  z-index: 40;
+  height: 100dvh;
+  width: 3px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 300ms var(--ease-soft);
+}
+
+.thread {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(var(--progress, 0) * 100%);
+  background: linear-gradient(180deg, var(--oxblood-bright), var(--oxblood));
+  transition: height 90ms linear;
+}
+
+.tassel {
+  position: absolute;
+  top: calc(var(--progress, 0) * 100%);
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--brass-bright);
+  box-shadow: 0 0 0 3px var(--void), 0 2px 6px rgba(0, 0, 0, 0.5);
+  transform: translate(-50%, -50%);
+  transition: top 90ms linear;
+}
+
+@media (max-width: 640px) {
+  .ribbon {
+    right: 10px;
+    width: 2px;
+  }
+
+  .tassel {
+    width: 7px;
+    height: 7px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thread,
+  .tassel {
+    transition: none;
+  }
+}

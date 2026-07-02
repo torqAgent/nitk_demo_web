@@ -1,63 +1,46 @@
 "use client";
 
+import { useMemo, useEffect, useState } from "react";
 import { CARDS, CardKind } from "@/lib/cards";
 import styles from "./ScatteredBoard.module.css";
 
-// Percentage-based rectangle that covers the centered hero content
-// (top tabs, wordmark, tagline, CTAs, hint text). Any card whose anchor
-// point falls inside here gets pushed out to the nearest edge instead.
-const SAFE_ZONE = { top: 14, bottom: 90, left: 28, right: 72 };
-const PUSH_OUT_GAP = 9;
-const VIEWPORT_MARGIN = 3;
-
-function keepOutOfHero(top: number, left: number) {
-  const insideVertically = top > SAFE_ZONE.top && top < SAFE_ZONE.bottom;
-  const insideHorizontally = left > SAFE_ZONE.left && left < SAFE_ZONE.right;
-
-  if (!(insideVertically && insideHorizontally)) {
-    return { top, left };
-  }
-
-  const distanceToEdge = {
-    left: left - SAFE_ZONE.left,
-    right: SAFE_ZONE.right - left,
-    top: top - SAFE_ZONE.top,
-    bottom: SAFE_ZONE.bottom - top,
-  };
-
-  const nearestEdge = (Object.keys(distanceToEdge) as (keyof typeof distanceToEdge)[]).reduce((a, b) =>
-    distanceToEdge[a] < distanceToEdge[b] ? a : b
-  );
-
-  switch (nearestEdge) {
-    case "left":
-      return { top, left: Math.max(VIEWPORT_MARGIN, SAFE_ZONE.left - PUSH_OUT_GAP) };
-    case "right":
-      return { top, left: Math.min(97, SAFE_ZONE.right + PUSH_OUT_GAP) };
-    case "top":
-      return { top: Math.max(VIEWPORT_MARGIN, SAFE_ZONE.top - PUSH_OUT_GAP), left };
-    default:
-      return { top: Math.min(95, SAFE_ZONE.bottom + PUSH_OUT_GAP), left };
-  }
-}
+const SAFE_ZONE = { left: 25, right: 75 };
 
 export default function ScatteredBoard({ filter }: { filter: CardKind | "all" }) {
-  const visible = filter === "all" ? CARDS : CARDS.filter((c) => c.kind === filter);
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => setIsClient(true), []);
+
+  const visibleCards = useMemo(() => {
+    const list = filter === "all" ? CARDS : CARDS.filter((c) => c.kind === filter);
+    return list.map((card) => {
+      let { left } = card;
+      // Force cards out of the center[cite: 11]
+      if (left > SAFE_ZONE.left && left < SAFE_ZONE.right) {
+        left = left > 50 ? SAFE_ZONE.right + 2 : SAFE_ZONE.left - 2;
+      }
+      return { ...card, left };
+    });
+  }, [filter]);
+
+  if (!isClient) return <div className={styles.board} aria-hidden="true" />;
 
   return (
-    <div className={styles.board} aria-hidden="true">
-      {visible.map((card) => {
-        const { top, left } = keepOutOfHero(card.top, card.left);
+    <div className={styles.board} aria-hidden="true" suppressHydrationWarning>
+      {visibleCards.map((card, i) => {
+        // Pin to the outer edge based on position[cite: 11]
+        const pinLeft = card.left <= 50;
+
         return (
           <article
             key={card.id}
             className={styles.card}
             style={{
-              top: `${top}%`,
-              left: `${left}%`,
-              width: `${card.width}px`,
-              transform: `rotate(${card.rotate}deg)`,
-            }}
+              top: `${card.top}%`,
+              [pinLeft ? "left" : "right"]: `${pinLeft ? card.left : 100 - card.left}%`,
+              "--card-max-width": `${card.width}px`,
+              "--card-rotate": `${card.rotate}deg`,
+              "--in-delay": `${(i % 8) * 60}ms`,
+            } as React.CSSProperties}
           >
             <h3 className={styles.cardTitle}>{card.title}</h3>
             <p className={styles.cardByline}>{card.byline}</p>

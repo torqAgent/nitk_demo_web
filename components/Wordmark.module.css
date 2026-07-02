@@ -1,0 +1,50 @@
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(3.2rem, 11vw, 8.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--paper);
+}
+
+.word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.4em) rotate(2deg);
+  animation: set-type 760ms var(--ease-out) both;
+}
+
+.space {
+  display: inline-block;
+  width: 0.28em;
+}
+
+@keyframes set-type {
+  from {
+    opacity: 0;
+    transform: translateY(0.5em) rotate(3deg);
+    filter: blur(3px);
+  }
+  60% {
+    filter: blur(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+    filter: blur(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .letter {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

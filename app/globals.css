@@ -1,17 +1,42 @@
 :root {
-  --bg: #eee9df;
-  --bg-deep: #e2dccd;
-  --surface: #fbfaf6;
-  --ink: #201b16;
-  --ink-soft: #6f6558;
-  --ink-faint: #a39784;
-  --accent: #a83c22;
-  --accent-soft: #c97a4e;
-  --rule: rgba(32, 27, 22, 0.14);
-  --shadow: rgba(32, 27, 22, 0.16);
+  /* Reading room, after hours — deep pine dark, worn brass, oxblood leather,
+     ivory catalog cards. Two accents used with distinct jobs, not one. */
+  --void: #0d1210;
+  --void-deep: #070a08;
+  --forest: #16211c;
+  --forest-soft: #1d2b24;
+
+  --surface: #f2ead4;
+  --surface-dim: #e4d8b8;
+  --surface-line: rgba(20, 16, 8, 0.14);
+
+  --paper: #ece4cf;
+  --paper-soft: rgba(236, 228, 207, 0.6);
+  --paper-faint: rgba(236, 228, 207, 0.32);
+
+  --ink: #1c150c;
+  --ink-soft: #6b5d45;
+  --ink-faint: #a89b81;
+
+  --brass: #b9905a;
+  --brass-bright: #d9b378;
+  --brass-dim: #7c5f36;
+
+  --oxblood: #7c2d2d;
+  --oxblood-bright: #9c3f3f;
+
+  --rule: rgba(185, 144, 90, 0.22);
+  --rule-soft: rgba(185, 144, 90, 0.12);
+  --shadow: rgba(0, 0, 0, 0.55);
 
   --font-display: "Fraunces", ui-serif, Georgia, serif;
   --font-body: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  color-scheme: dark;
 }
 
 * {
@@ -24,11 +49,31 @@ body {
   margin: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--bg);
-  color: var(--ink);
+  background: var(--void);
+  color: var(--paper);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
+  position: relative;
+  min-height: 100dvh;
+}
+
+/* Fine paper grain over everything, very low opacity — reads as a material,
+   not a flat digital gradient. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 140px 140px;
 }
 
 a {
@@ -40,21 +85,44 @@ button {
 }
 
 ::selection {
-  background: var(--accent);
-  color: var(--surface);
+  background: var(--brass);
+  color: var(--void-deep);
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--brass-bright);
   outline-offset: 3px;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--rule);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brass-dim);
+}
+
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   *,
   *::before,
   *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }

@@ -2,7 +2,18 @@
   position: relative;
   min-height: 100dvh;
   overflow: hidden;
-  background: radial-gradient(ellipse 120% 80% at 50% 40%, var(--bg) 0%, var(--bg-deep) 100%);
+  background:
+    radial-gradient(ellipse 90% 60% at 50% -10%, var(--forest-soft) 0%, transparent 55%),
+    radial-gradient(ellipse 120% 90% at 50% 110%, var(--forest) 0%, transparent 60%),
+    var(--void);
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(ellipse 140% 100% at 50% 50%, transparent 45%, var(--void-deep) 120%);
 }
 
 .content {
@@ -24,120 +35,85 @@
   justify-content: center;
   text-align: center;
   max-width: 720px;
-  margin-top: 24px;
-  animation: reveal 720ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  margin-top: 48px; /* Increased from 24px to pull the Wordmark away from TopTabs */
 }
 
-/* Soft light bloom behind the wordmark so it reads as the clear focal
-   point above the scattered cards, rather than competing with them. */
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: -18% -10%;
-  z-index: -1;
-  background: radial-gradient(ellipse 60% 55% at 50% 38%, var(--surface) 0%, transparent 72%);
-  opacity: 0.55;
-  pointer-events: none;
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 26px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brass);
+  opacity: 0;
+  animation: rise 720ms var(--ease-out) 80ms both;
 }
 
-@keyframes reveal {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.eyebrowRule {
+  width: 30px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--brass-dim));
 }
 
-.wordmark {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: clamp(3.2rem, 11vw, 8.5rem);
-  line-height: 0.95;
-  letter-spacing: -0.01em;
-  margin: 0;
-  color: var(--ink);
+.eyebrow .eyebrowRule:last-child {
+  background: linear-gradient(90deg, var(--brass-dim), transparent);
 }
 
 .tagline {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin: 22px 0 0;
-  font-size: 0.72rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-}
-
-.tagline::before,
-.tagline::after {
-  content: "";
-  width: 20px;
-  height: 1px;
-  background: var(--ink-faint);
+  margin: 24px 0 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  color: var(--paper-soft);
+  opacity: 0;
+  animation: rise 720ms var(--ease-out) 620ms both;
 }
 
 .actions {
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 14px;
-  margin-top: 40px;
-}
-
-.voiceButton,
-.chatButton {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  padding: 14px 28px;
-  border-radius: 999px;
-  font-size: 0.92rem;
-  font-weight: 500;
-  text-decoration: none;
-  transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease, border-color 200ms ease;
+  gap: 26px;
+  margin-top: 42px;
+  opacity: 0;
+  animation: rise 720ms var(--ease-out) 760ms both;
 }
 
 .voiceButton {
-  background: var(--ink);
-  color: var(--surface);
-  box-shadow: 0 12px 26px -10px var(--shadow);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 26px;
+  border-radius: 8px;
+  background: var(--brass);
+  color: var(--void-deep);
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 14px 26px -14px rgba(185, 144, 90, 0.55);
+  transition: transform 220ms var(--ease-out), box-shadow 220ms var(--ease-out), background 220ms ease;
 }
 
 .voiceButton:hover {
   transform: translateY(-2px);
-  box-shadow: 0 18px 34px -12px var(--shadow);
+  background: var(--brass-bright);
+  box-shadow: 0 18px 32px -14px rgba(185, 144, 90, 0.6);
 }
 
 .voiceButton:active {
   transform: translateY(0) scale(0.98);
 }
 
-.chatButton {
-  background: var(--surface);
-  color: var(--ink);
-  border: 1px solid var(--rule);
-}
-
-.chatButton:hover {
-  transform: translateY(-2px);
-  border-color: var(--ink-soft);
-  box-shadow: 0 14px 26px -14px var(--shadow);
-}
-
-.chatButton:active {
-  transform: translateY(0) scale(0.98);
-}
-
 .dot {
   position: relative;
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background: var(--accent-soft);
+  background: var(--oxblood-bright);
 }
 
 .dot::after {
@@ -145,38 +121,68 @@
   position: absolute;
   inset: -5px;
   border-radius: 50%;
-  border: 1px solid var(--accent-soft);
+  border: 1px solid var(--oxblood-bright);
   animation: pulse 2.2s ease-out infinite;
 }
 
 @keyframes pulse {
   0% {
     transform: scale(0.6);
-    opacity: 0.9;
+    opacity: 0.8;
   }
   100% {
-    transform: scale(2.1);
+    transform: scale(2.3);
     opacity: 0;
   }
 }
 
-.star {
-  color: var(--accent);
-  font-size: 0.85rem;
-  display: inline-block;
-  transition: transform 320ms ease;
+.chatLink {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--paper);
+  text-decoration: none;
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--rule);
+  transition: border-color 220ms ease, color 220ms ease;
 }
 
-.chatButton:hover .star {
-  transform: rotate(90deg);
+.chatLink:hover {
+  color: var(--brass-bright);
+  border-color: var(--brass);
+}
+
+.chatArrow {
+  display: inline-block;
+  transition: transform 220ms var(--ease-out);
+}
+
+.chatLink:hover .chatArrow {
+  transform: translateX(4px);
 }
 
 .hint {
-  margin: 30px 0 0;
+  margin: 32px 0 0;
   max-width: 440px;
   font-size: 0.88rem;
   line-height: 1.6;
-  color: var(--ink-soft);
+  color: var(--paper-soft);
+  opacity: 0;
+  animation: rise 720ms var(--ease-out) 900ms both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 900px) {
@@ -184,42 +190,28 @@
     padding: 28px 20px max(48px, env(safe-area-inset-bottom));
   }
 
-  .wordmark {
-    font-size: clamp(2.6rem, 14vw, 4.2rem);
-  }
-
   .hero {
     margin-top: 16px;
-  }
-
-  .hero::before {
-    inset: -10% -6%;
   }
 }
 
 @media (max-width: 420px) {
-  .tagline {
-    font-size: 0.66rem;
-    letter-spacing: 0.12em;
-  }
-
-  .tagline::before,
-  .tagline::after {
-    width: 14px;
+  .eyebrow {
+    font-size: 0.6rem;
+    gap: 10px;
   }
 
   .actions {
     flex-direction: column;
+    gap: 20px;
     width: 100%;
     max-width: 320px;
-    margin-top: 32px;
+    margin-top: 34px;
   }
 
-  .voiceButton,
-  .chatButton {
+  .voiceButton {
     width: 100%;
     justify-content: center;
-    padding: 15px 24px;
   }
 
   .hint {
@@ -228,8 +220,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero {
+  .eyebrow,
+  .tagline,
+  .actions,
+  .hint {
     animation: none;
+    opacity: 1;
   }
 
   .dot::after {

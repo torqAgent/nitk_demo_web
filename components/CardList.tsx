@@ -6,8 +6,12 @@ export default function CardList({ filter }: { filter: CardKind | "all" }) {
 
   return (
     <ul className={styles.list} aria-label={filter === "all" ? "All items" : `${filter}s`}>
-      {visible.map((card) => (
-        <li key={card.id} className={styles.item}>
+      {visible.map((card, i) => (
+        <li
+          key={card.id}
+          className={styles.item}
+          style={{ "--i": i % 12 } as React.CSSProperties}
+        >
           <h3 className={styles.title}>{card.title}</h3>
           <p className={styles.byline}>{card.byline}</p>
           <p className={styles.tag}>{card.tag}</p>

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
 import styles from "./TopTabs.module.css";
 
 const TABS = [
@@ -24,7 +25,14 @@ export default function TopTabs() {
             className={`${styles.tab} ${active ? styles.tabActive : ""}`}
             aria-current={active ? "page" : undefined}
           >
-            {t.label}
+            {active && (
+              <motion.span
+                layoutId="tab-pill"
+                className={styles.pill}
+                transition={{ type: "spring", stiffness: 420, damping: 34 }}
+              />
+            )}
+            <span className={styles.tabLabel}>{t.label}</span>
           </Link>
         );
       })}

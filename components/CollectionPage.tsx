@@ -29,6 +29,7 @@ export default function CollectionPage({ kind }: { kind: CardKind }) {
 
       <div className={styles.intro}>
         <h1 className={styles.heading}>{copy.heading}</h1>
+        <span className={styles.rule} aria-hidden="true" />
         <p className={styles.tagline}>{copy.tagline}</p>
         <p className={styles.hint}>{copy.hint}</p>
       </div>

@@ -1,59 +1,97 @@
 .tabs {
+  position: relative;
+  z-index: 3;
   display: flex;
   gap: 4px;
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  border-radius: 999px;
+  background: var(--forest);
+  border: 1px solid var(--rule-soft);
+  border-radius: 10px;
   padding: 4px;
-  box-shadow: 0 8px 22px -12px var(--shadow), 0 1px 2px var(--shadow);
+  box-shadow: 0 10px 28px -16px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  opacity: 0;
+  animation: fade-down 640ms var(--ease-out) 40ms both;
+}
+
+@keyframes fade-down {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .tab {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 40px;
+  min-height: 38px;
   border: none;
   background: transparent;
-  padding: 9px 22px;
-  border-radius: 999px;
+  padding: 8px 20px;
+  border-radius: 7px;
   font-size: 0.85rem;
   font-weight: 500;
-  color: var(--ink-soft);
+  color: var(--paper-soft);
   text-decoration: none;
   cursor: pointer;
   white-space: nowrap;
-  transition: background 200ms ease, color 200ms ease, transform 120ms ease;
+  transition: color 220ms ease;
 }
 
 .tab:hover {
-  color: var(--ink);
-  background: var(--rule);
-}
-
-.tab:active {
-  transform: scale(0.96);
+  color: var(--paper);
 }
 
 .tab:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--brass-bright);
   outline-offset: 2px;
 }
 
-.tab.tabActive {
-  background: var(--ink);
-  color: var(--surface);
-  box-shadow: 0 4px 12px -4px var(--shadow);
+.tabLabel {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
 }
 
-.tab.tabActive:hover {
-  background: var(--ink);
+.tab.tabActive {
+  color: var(--void-deep);
+}
+
+.pill {
+  position: absolute;
+  inset: 0;
+  border-radius: 7px;
+  background: var(--brass);
+  z-index: 0;
+}
+
+.pill::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(13, 18, 16, 0.35);
+  transform: translateX(-50%);
 }
 
 @media (max-width: 420px) {
   .tab {
-    padding: 8px 16px;
+    padding: 7px 14px;
     font-size: 0.78rem;
-    min-height: 36px;
+    min-height: 34px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tabs {
+    animation: none;
+    opacity: 1;
   }
 }
