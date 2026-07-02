@@ -70,6 +70,7 @@ export default function VoiceRoom() {
       connect
       audio
       video={false}
+      connectOptions={{ rtcConfig: { iceTransportPolicy: "relay" } }}
       onDisconnected={() => router.push("/")}
       className={styles.room}
     >

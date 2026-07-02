@@ -110,7 +110,17 @@ export default function ChatWindow() {
         {messages.map((m, i) => (
           <div key={i} className={m.role === "user" ? styles.userRow : styles.assistantRow}>
             <div className={m.role === "user" ? styles.userBubble : styles.assistantBubble}>
-              {m.content || (busy && i === messages.length - 1 ? "…" : "")}
+              {m.content ? (
+                m.content
+              ) : busy && i === messages.length - 1 ? (
+                <span className={styles.typingDots} aria-label="Aria is typing">
+                  <span />
+                  <span />
+                  <span />
+                </span>
+              ) : (
+                ""
+              )}
             </div>
           </div>
         ))}

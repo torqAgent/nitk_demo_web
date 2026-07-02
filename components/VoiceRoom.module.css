@@ -9,11 +9,13 @@
 
 .back {
   position: absolute;
-  top: 28px;
-  left: 28px;
+  top: max(28px, env(safe-area-inset-top));
+  left: max(28px, env(safe-area-inset-left));
   font-size: 0.82rem;
   color: var(--ink-soft);
   text-decoration: none;
+  transition: color 160ms ease;
+  z-index: 5;
 }
 
 .back:hover {
@@ -31,6 +33,7 @@
   max-width: 480px;
   margin: 0 auto;
   padding: 24px;
+  width: 100%;
 }
 
 .eyebrow {
@@ -60,22 +63,33 @@
   border: none;
   background: var(--ink);
   color: var(--surface);
-  padding: 15px 34px;
+  padding: 16px 36px;
   border-radius: 999px;
   font-size: 0.95rem;
   font-weight: 500;
   cursor: pointer;
-  box-shadow: 0 10px 22px -10px var(--shadow);
-  transition: transform 160ms ease;
+  box-shadow: 0 12px 26px -10px var(--shadow);
+  transition: transform 180ms ease, box-shadow 180ms ease;
 }
 
-.startButton:hover {
+.startButton:hover:not(:disabled) {
   transform: translateY(-2px);
+  box-shadow: 0 16px 32px -10px var(--shadow);
+}
+
+.startButton:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+}
+
+.startButton:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 .startButton:disabled {
   opacity: 0.6;
   cursor: progress;
+  transform: none;
 }
 
 .error {
@@ -96,12 +110,17 @@
   font-size: 1.4rem;
   color: var(--ink);
   margin: 0 0 30px;
+  transition: color 200ms ease;
 }
 
 .visualizerWrap {
   width: 220px;
   height: 90px;
   margin-bottom: 36px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .visualizer {
@@ -109,14 +128,19 @@
   height: 100%;
   --lk-va-bar-width: 6px;
   --lk-va-bar-gap: 6px;
+  color: var(--accent);
 }
 
 .captions {
   min-height: 120px;
+  max-height: 220px;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   justify-content: flex-end;
+  width: 100%;
+  padding: 0 4px;
 }
 
 .captionPlaceholder {
@@ -129,6 +153,18 @@
   line-height: 1.5;
   color: var(--ink);
   margin: 0;
+  animation: rise 220ms ease both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .captionSpeaker {
@@ -141,20 +177,35 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  padding: 28px 24px 40px;
+  gap: 18px;
+  padding: 28px 24px max(40px, env(safe-area-inset-bottom));
 }
 
 .micToggle {
   border: 1px solid var(--rule);
   background: var(--surface);
-  width: 52px;
-  height: 52px;
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+  box-shadow: 0 6px 16px -10px var(--shadow);
+}
+
+.micToggle:hover {
+  transform: translateY(-2px);
+}
+
+.micToggle:active {
+  transform: translateY(0) scale(0.95);
+}
+
+.micToggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 .micToggle[data-enabled="false"] {
@@ -167,10 +218,64 @@
   border: none;
   background: var(--accent);
   color: var(--surface);
-  padding: 14px 28px;
+  padding: 15px 30px;
   border-radius: 999px;
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
   text-decoration: none;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+  box-shadow: 0 10px 22px -12px var(--shadow);
+}
+
+.leaveButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 26px -12px var(--shadow);
+}
+
+.leaveButton:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.leaveButton:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+  .back {
+    top: max(20px, env(safe-area-inset-top));
+    left: max(20px, env(safe-area-inset-left));
+    font-size: 0.78rem;
+  }
+
+  .gateInner,
+  .stageInner {
+    padding: 20px 16px;
+  }
+
+  .gateBody {
+    font-size: 0.9rem;
+  }
+
+  .startButton {
+    width: 100%;
+    padding: 15px 24px;
+  }
+
+  .visualizerWrap {
+    width: 180px;
+    height: 76px;
+    margin-bottom: 26px;
+  }
+
+  .controls {
+    gap: 14px;
+    padding: 22px 16px max(32px, env(safe-area-inset-bottom));
+  }
+
+  .leaveButton {
+    padding: 14px 24px;
+    font-size: 0.86rem;
+  }
 }
